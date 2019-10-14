@@ -7,10 +7,11 @@ var moment = require("moment");
 var axios = require("axios");
 // Variables to store input information
 var command = process.argv[2];
-var input = process.argv.slice(3).join("+");
+var input = process.argv.slice(3)
 var queryUrl = "";
 // Creating functions for each command
 function concertSearch() {
+  input = input.join("+")
   queryUrl =
     "https://rest.bandsintown.com/artists/" +
     input +
@@ -20,11 +21,21 @@ function concertSearch() {
     .then(function(response) {
       // console.log(response.data[0].venue);
       for (let i = 0; i < response.data.length; i++) {
-        var venue = response.data[i].venue.name
-        var city = response.data[i].venue.city
-        var region = response.data[i].venue.region
-        var dateTime = moment(response.data[i].datetime).format("MM/DD/YYYY")
-        console.log("They will be playing at " + venue + " in "+city +","+region+ " on " + dateTime + ".")
+        var venue = response.data[i].venue.name;
+        var city = response.data[i].venue.city;
+        var region = response.data[i].venue.region;
+        var dateTime = moment(response.data[i].datetime).format("MM/DD/YYYY");
+        console.log(
+          "They will be playing at " +
+            venue +
+            " in " +
+            city +
+            "," +
+            region +
+            " on " +
+            dateTime +
+            "."
+        );
       }
     })
     .catch(function(error) {
@@ -40,16 +51,14 @@ function concertSearch() {
       console.log(error.config);
     });
 }
+function spotifySearch() {
 
-
-
-
-
+}
 // Switch to run through the different commands
 switch (command) {
   case "concert-this":
     // console.log("Working");
-    concertSearch()
+    concertSearch();
     break;
   case "spotify-this-song":
     // console.log("Working");
