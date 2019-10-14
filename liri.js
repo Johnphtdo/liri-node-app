@@ -5,6 +5,7 @@ var Spotify = require("node-spotify-api");
 var spotifyClient = new Spotify(keys.spotify);
 var moment = require("moment");
 var axios = require("axios");
+var fs = require("fs")
 // Variables to store input information
 var command = process.argv[2];
 var input = process.argv.slice(3);
@@ -89,7 +90,7 @@ function spotifySearch() {
     );
   });
 }
-
+// Creating function for the Movie search command
 function movieSearch() {
   if (input == false){
     input = "Mr. Nobody"
@@ -140,6 +141,38 @@ function movieSearch() {
       console.log(error.config);
     });
 }
+function txtSearch(){
+  fs.readFile("random.txt", "utf8", function(err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    data = data.split(",");
+    // console.log(data)
+    command = data[0]
+    // console.log(command)
+    input = data[1].split(" ")
+    // console.log(input)
+
+    switch (command) {
+      case "concert-this":
+        // console.log("Working");
+        concertSearch();
+        break;
+      case "spotify-this-song":
+        // console.log("Working");
+        spotifySearch();
+        break;
+      case "movie-this":
+        // console.log("Working");
+        movieSearch();
+        break;
+      case "do-what-it-says":
+        // console.log("Working");
+        txtSearch();
+        break;
+    }
+})
+}
 // Switch to run through the different commands
 switch (command) {
   case "concert-this":
@@ -156,5 +189,6 @@ switch (command) {
     break;
   case "do-what-it-says":
     // console.log("Working");
+    txtSearch();
     break;
 }
