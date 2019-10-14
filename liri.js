@@ -9,7 +9,7 @@ var axios = require("axios");
 var command = process.argv[2];
 var input = process.argv.slice(3);
 var queryUrl = "";
-// Creating functions for each command
+// Creating function for the Bands in Town command
 function concertSearch() {
   input = input.join("+");
   queryUrl =
@@ -51,9 +51,16 @@ function concertSearch() {
       console.log(error.config);
     });
 }
+// Creating function for the Spotify command
 function spotifySearch() {
+  if (input == false){
+    var spotifyParameter = { type: "track", query: "The Sign Ace of Base", limit: 1 }
+  }
+  else {
   input = input.join(" ");
-  spotifyClient.search({ type: "track", query: input, limit: 1 }, function(
+  var spotifyParameter = { type: "track", query: input, limit: 1 }
+  }
+  spotifyClient.search(spotifyParameter, function(
     err,
     data
   ) {
@@ -81,6 +88,10 @@ function spotifySearch() {
         previewURL
     );
   });
+}
+
+function movieSearch() {
+  input = input.join("+");
 }
 // Switch to run through the different commands
 switch (command) {
