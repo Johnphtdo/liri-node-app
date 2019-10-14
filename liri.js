@@ -91,7 +91,54 @@ function spotifySearch() {
 }
 
 function movieSearch() {
-  input = input.join("+");
+  if (input == false){
+    input = "Mr. Nobody"
+  }
+  else{
+    input = input.join("+")
+  }
+   queryUrl = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=trilogy";
+   axios
+    .get(queryUrl)
+    .then(function(response) {
+      var movie = response.data
+      var title = movie.Title;
+      // console.log(title)
+      var year = movie.Year
+      // console.log(year)
+      var imdbRating = movie.Rated
+      // console.log(imdbRating)
+      var rotRating = movie.Ratings[1].Value
+      // console.log(rotRating)
+      var country = movie.Country
+      // console.log(country)
+      var language = movie.Language
+      // console.log(language)
+      var plot = movie.Plot
+      // console.log(plot)
+      var actors = movie.Actors
+      // console.log(actors)
+     console.log("Movie Name: " + title+
+                 "\nYear released: " +year+
+                 "\nIMDB rating: " +imdbRating+
+                 "\nRotten Tomatoes rating: " +rotRating+
+                 "\nCountries produced: " +country+
+                 "\nLanguages available: " +language+
+                 "\nPlot: " + plot+
+                  "\nActors: "+ actors)
+    })
+    .catch(function(error) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log("Error", error.message);
+      }
+      console.log(error.config);
+    });
 }
 // Switch to run through the different commands
 switch (command) {
@@ -105,6 +152,7 @@ switch (command) {
     break;
   case "movie-this":
     // console.log("Working");
+    movieSearch();
     break;
   case "do-what-it-says":
     // console.log("Working");
